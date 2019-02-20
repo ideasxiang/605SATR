@@ -37,7 +37,7 @@ class NominalRoll : AppCompatActivity(), MyRecyclerViewAdapter.ItemClickListener
                 .get()
                 .addOnCompleteListener { task ->
                     for (documentSnapshot in task.result!!) {
-                        val user = User(documentSnapshot.id,documentSnapshot.getString("firstName").toString())
+                        val user = User(documentSnapshot.id,documentSnapshot.getString("firstName")!!)
                         userArrayList!!.add(user)
                     }
                     adapter = MyRecyclerViewAdapter(this@NominalRoll, userArrayList!!)

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "458695490092",
+    "firebase_url": "https://satrtemp-20c51.firebaseio.com",
+    "project_id": "satrtemp-20c51",
+    "storage_bucket": "satrtemp-20c51.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458695490092:android:9daf7b78ea184acb",
+        "android_client_info": {
+          "package_name": "com.tab.satr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "458695490092-bmuok9arsuc8aomne7ipf22d6aksh7di.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tab.satr",
+            "certificate_hash": "cdd61cbb4586861b763797fe9eb0c40a5e0a9512"
+          }
+        },
+        {
+          "client_id": "458695490092-vufec9s83vj2k29hgdtfqh50d0jkukmi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXztCC7dsGOmEiP1i4JLhcEazmSDGliKg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "458695490092-vufec9s83vj2k29hgdtfqh50d0jkukmi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

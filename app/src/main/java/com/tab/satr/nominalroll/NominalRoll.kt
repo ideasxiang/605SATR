@@ -26,7 +26,6 @@ class NominalRoll : AppCompatActivity(), MyRecyclerViewAdapter.ItemClickListener
 
         setUpRecyclerView()
         setUpFireBase()
-        addTestDataToFirebase()
         loadDataFromFirebase()
     }
 
@@ -50,19 +49,6 @@ class NominalRoll : AppCompatActivity(), MyRecyclerViewAdapter.ItemClickListener
                     Toast.makeText(this@NominalRoll, "Problem ---1---", Toast.LENGTH_SHORT).show()
                     Log.w("---1---", e.message)
                 }
-    }
-
-    private fun addTestDataToFirebase() {
-        for (i in 0..1) {
-            val random = Random()
-            val dataMap = HashMap<String, String>()
-            dataMap["firstName"] = "try name" + random.nextInt(50)
-            dataMap["lastName"] = "try status" + random.nextInt(50)
-
-            db.collection("users")
-                    .add(dataMap)
-                    .addOnSuccessListener { Toast.makeText(this@NominalRoll, "Added Test Data", Toast.LENGTH_SHORT).show() }
-        }
     }
 
     private fun setUpFireBase() {

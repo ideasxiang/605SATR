@@ -9,9 +9,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.auth.User
 import com.tab.satr.R
 
@@ -19,8 +16,7 @@ class MyRecyclerViewAdapter// data is passed into the constructor
 internal constructor(context: Context, private val mData: java.util.ArrayList<com.tab.satr.nominalroll.User>) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
     private var mClickListener: ItemClickListener? = null
-    private lateinit var userArrayList: ArrayList<User>
-    private lateinit var mainActivity: NominalRoll
+    private var mainActivity: NominalRoll = NominalRoll()
 
     // inflates the cell layout from xml when needed
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -67,15 +63,15 @@ internal constructor(context: Context, private val mData: java.util.ArrayList<co
 
     private fun deleteSelectedRow(position: Int) {
         mainActivity.db.collection("users")
-                .document(userArrayList[position].uid!!)
+                .document(mainActivity.userArrayList!![position].firstName)
                 .delete()
-                .addOnSuccessListener(OnSuccessListener<Void> {
+                .addOnSuccessListener {
                     Toast.makeText(mainActivity.baseContext, "Deleted Successfully", Toast.LENGTH_SHORT).show()
                     mainActivity.loadDataFromFirebase()
-                })
-                .addOnFailureListener(OnFailureListener { e ->
+                }
+                .addOnFailureListener { e ->
                     Toast.makeText(mainActivity, "Unable To Delete --3--", Toast.LENGTH_SHORT).show()
                     Log.w("--3--", e.message)
-                })
+                }
     }
 }

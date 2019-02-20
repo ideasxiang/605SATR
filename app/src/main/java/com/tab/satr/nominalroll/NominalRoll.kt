@@ -14,8 +14,8 @@ import java.util.*
 class NominalRoll : AppCompatActivity(), MyRecyclerViewAdapter.ItemClickListener {
 
     private lateinit var adapter: MyRecyclerViewAdapter
-    private var userArrayList: ArrayList<User>? = null
-    lateinit var db: FirebaseFirestore
+    var userArrayList: ArrayList<User>? = null
+    var db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private lateinit var mRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,9 +37,7 @@ class NominalRoll : AppCompatActivity(), MyRecyclerViewAdapter.ItemClickListener
                 .get()
                 .addOnCompleteListener { task ->
                     for (documentSnapshot in task.result!!) {
-                        val user = User(documentSnapshot.id,
-                                documentSnapshot.getString("firstName")!!,
-                                documentSnapshot.getString("lastName")!!)
+                        val user = User(documentSnapshot.id,documentSnapshot.getString("firstName").toString())
                         userArrayList!!.add(user)
                     }
                     adapter = MyRecyclerViewAdapter(this@NominalRoll, userArrayList!!)

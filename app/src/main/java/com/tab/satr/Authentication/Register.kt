@@ -46,8 +46,6 @@ class Register : AppCompatActivity() {
         val data = HashMap<String, Any>()
         data["firstName"] = etFirstName?.text.toString()
         data["lastName"] = etLastName?.text.toString()
-        data["email"] = etEmail?.text.toString()
-        data["password"] = etPassword?.text.toString()
         data["dateExample"] = Timestamp(Date())
 
 
@@ -57,7 +55,7 @@ class Register : AppCompatActivity() {
         password = etPassword?.text.toString()*/
 
         mAuth!!
-            .createUserWithEmailAndPassword(data["email"].toString(),data["password"].toString())
+            .createUserWithEmailAndPassword(etEmail?.text.toString(),etPassword?.text.toString())
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information

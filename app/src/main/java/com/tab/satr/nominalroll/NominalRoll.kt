@@ -1,12 +1,10 @@
 package com.tab.satr.nominalroll
 
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.widget.CheckBox
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tab.satr.R
@@ -14,10 +12,11 @@ import com.tab.satr.R
 
 class NominalRoll : AppCompatActivity() {
 
-    private var db: FirebaseFirestore? = null
+    var db: FirebaseFirestore? = null
     private var mRecyclerView: RecyclerView? = null
     private var userArrayList: java.util.ArrayList<User>? = null
     private var adapter: MyRecyclerViewAdapter? = null
+    var checked: Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +36,9 @@ class NominalRoll : AppCompatActivity() {
             .addOnCompleteListener { task ->
                 for (documentSnapshot in task.result!!) {
                     val user = User(
-                        documentSnapshot.getString("firstName")!!
+                        documentSnapshot.getString("username")!!
                     )
+                    checked = documentSnapshot.getBoolean("checked")!!
                     userArrayList!!.add(user)
                 }
                 adapter = MyRecyclerViewAdapter(this@NominalRoll, userArrayList)

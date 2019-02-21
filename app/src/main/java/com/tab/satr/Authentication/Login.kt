@@ -53,7 +53,7 @@ class Login : AppCompatActivity() {
 
         val editTextUsername = findViewById<EditText>(R.id.editTextUsername)
         val editTextPassword = findViewById<EditText>(R.id.editTextPassword)
-        val username: String = editTextUsername.text.toString().trim()
+        val username: String = editTextUsername.text.toString().trim().plus("@a.com")
         val password: String = editTextPassword.text.toString().trim()
 
         val btnLogin = findViewById<Button>(R.id.btn_login)

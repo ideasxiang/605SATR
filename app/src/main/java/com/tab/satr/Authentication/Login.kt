@@ -87,7 +87,6 @@ class Login : AppCompatActivity() {
                 .signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(this, "Redirecting...", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, DashBoard::class.java)
                         startActivity(intent)
                         Log.d(s, "Login Successful")

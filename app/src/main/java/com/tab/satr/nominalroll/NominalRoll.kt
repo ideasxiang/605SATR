@@ -1,22 +1,23 @@
 package com.tab.satr.nominalroll
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.View
+import android.widget.CheckBox
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tab.satr.R
-import java.util.*
 
-class NominalRoll : AppCompatActivity(), MyRecyclerViewAdapter.ItemClickListener {
 
-    private lateinit var adapter: MyRecyclerViewAdapter
-    var userArrayList: ArrayList<User>? = null
-    var db: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private lateinit var mRecyclerView: RecyclerView
+class NominalRoll : AppCompatActivity() {
+
+    private var db: FirebaseFirestore? = null
+    private var mRecyclerView: RecyclerView? = null
+    private var userArrayList: java.util.ArrayList<User>? = null
+    private var adapter: MyRecyclerViewAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,23 +31,23 @@ class NominalRoll : AppCompatActivity(), MyRecyclerViewAdapter.ItemClickListener
     }
 
     fun loadDataFromFirebase() {
-        if (userArrayList!!.size > 0)
-            userArrayList!!.clear()
 
-        db.collection("users")
-                .get()
-                .addOnCompleteListener { task ->
-                    for (documentSnapshot in task.result!!) {
-                        val user = User(documentSnapshot.id,documentSnapshot.getString("firstName")!!)
-                        userArrayList!!.add(user)
-                    }
-                    adapter = MyRecyclerViewAdapter(this@NominalRoll, userArrayList!!)
-                    mRecyclerView.adapter = adapter
+        db!!.collection("users")
+            .get()
+            .addOnCompleteListener { task ->
+                for (documentSnapshot in task.result!!) {
+                    val user = User(
+                        documentSnapshot.getString("firstName")!!
+                    )
+                    userArrayList!!.add(user)
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this@NominalRoll, "Problem ---1---", Toast.LENGTH_SHORT).show()
-                    Log.w("---1---", e.message)
-                }
+                adapter = MyRecyclerViewAdapter(this@NominalRoll, userArrayList)
+                mRecyclerView!!.adapter = adapter
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this@NominalRoll, "Problem ---1---", Toast.LENGTH_SHORT).show()
+                Log.w("---1---", e.message)
+            }
     }
 
     private fun setUpFireBase() {
@@ -54,12 +55,9 @@ class NominalRoll : AppCompatActivity(), MyRecyclerViewAdapter.ItemClickListener
     }
 
     private fun setUpRecyclerView() {
-        mRecyclerView = findViewById(R.id.mRecyclerView)
-        mRecyclerView.setHasFixedSize(true)
-        mRecyclerView.layoutManager = LinearLayoutManager(this)
+        mRecyclerView = findViewById(com.tab.satr.R.id.mRecyclerView)
+        mRecyclerView?.setHasFixedSize(true)
+        mRecyclerView?.layoutManager = LinearLayoutManager(this)
     }
 
-    override fun onItemClick(view: View, position: Int) {
-        Log.i("TAG", "You clicked number " + adapter.getItem(position) + ", which is at cell position " + position)
-    }
 }

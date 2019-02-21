@@ -6,22 +6,15 @@
     android:padding="5dp">
 
     <TextView
-        android:id="@+id/info_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".3" />
-
-    <Button
-        android:id="@+id/mRowDeleteBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@android:drawable/ic_delete" />
+            android:id="@+id/info_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
     <CheckBox
-        android:id="@+id/checkBox2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
+            android:id="@+id/checkbox_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"/>
 
 </LinearLayout>

@@ -1,77 +1,50 @@
 package com.tab.satr.nominalroll
 
-import android.content.Context
+import android.preference.PreferenceManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
-import com.google.firebase.firestore.auth.User
+import android.widget.CheckBox
 import com.tab.satr.R
+import java.util.*
 
-class MyRecyclerViewAdapter// data is passed into the constructor
-internal constructor(context: Context, private val mData: java.util.ArrayList<com.tab.satr.nominalroll.User>) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
-    private val mInflater: LayoutInflater = LayoutInflater.from(context)
-    private var mClickListener: ItemClickListener? = null
-    private var mainActivity: NominalRoll = NominalRoll()
+class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var userArrayList: ArrayList<com.tab.satr.nominalroll.User>?) :
+    RecyclerView.Adapter<MyRecyclerViewHolder>() {
 
-    // inflates the cell layout from xml when needed
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = mInflater.inflate(R.layout.recyclerview_item, parent, false)
-        return ViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyRecyclerViewHolder {
+
+        val layoutInflater = LayoutInflater.from(mainActivity.baseContext)
+        val view = layoutInflater.inflate(R.layout.recyclerview_item, parent, false)
+
+        return MyRecyclerViewHolder(view)
     }
 
-    // binds the data to the TextView in each cell
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.mUserName.text = mData[position].toString()
-        holder.mDeleteRow.setOnClickListener { deleteSelectedRow(position) }
+    override fun onBindViewHolder(holder: MyRecyclerViewHolder, position: Int) {
+
+        holder.mUserName.text = this.userArrayList!![position].userName
+        val checked = PreferenceManager.getDefaultSharedPreferences(mainActivity.baseContext)
+            .getBoolean("checkBoxStatus", false)
+        holder.mCheckBox.isChecked = checked
+        holder.mCheckBox.setOnClickListener {onCheckboxClicked(holder.mCheckBox)}
 
     }
 
-    // total number of cells
     override fun getItemCount(): Int {
-        return mData.size
+        return userArrayList!!.size
     }
 
-
-    // stores and recycles views as they are scrolled off screen
-    inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        var mUserName: TextView = itemView.findViewById(R.id.info_text)
-        var mDeleteRow: Button = itemView.findViewById(R.id.mRowDeleteBtn)
-
-        init {
-            itemView.setOnClickListener(this)
-        }
-
-        override fun onClick(view: View) {
-            if (mClickListener != null) mClickListener!!.onItemClick(view, adapterPosition)
-        }
-    }
-
-    // convenience method for getting data at click position
-    internal fun getItem(id: Int): String {
-        return mData[id].toString()
-    }
-
-    // parent activity will implement this method to respond to click events
-    interface ItemClickListener {
-        fun onItemClick(view: View, position: Int)
-    }
-
-    private fun deleteSelectedRow(position: Int) {
-        mainActivity.db.collection("users")
-                .document(mainActivity.userArrayList!![position].firstName)
-                .delete()
-                .addOnSuccessListener {
-                    Toast.makeText(mainActivity.baseContext, "Deleted Successfully", Toast.LENGTH_SHORT).show()
-                    mainActivity.loadDataFromFirebase()
+    private fun onCheckboxClicked(view: View) {
+        if (view is CheckBox) {
+            val checked: Boolean = view.isChecked
+            if (checked) {
+                PreferenceManager.getDefaultSharedPreferences(mainActivity.baseContext).edit()
+                    .putBoolean("checkBoxStatus", checked).apply()
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(mainActivity, "Unable To Delete --3--", Toast.LENGTH_SHORT).show()
-                    Log.w("--3--", e.message)
-                }
+            else{
+                PreferenceManager.getDefaultSharedPreferences(mainActivity.baseContext).edit()
+                    .putBoolean("checkBoxStatus", checked).apply()
+            }
+            }
+        }
     }
-}

@@ -17,8 +17,7 @@ import java.util.*
 class Register : AppCompatActivity() {
 
     //UI elements
-    private var etFirstName: EditText? = null
-    private var etLastName: EditText? = null
+    private var etUserName: EditText? = null
     private var etEmail: EditText? = null
     private var etPassword: EditText? = null
     private var btnCreateAccount: Button? = null
@@ -30,8 +29,7 @@ class Register : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        etFirstName = findViewById<View>(R.id.et_first_name) as EditText
-        etLastName = findViewById<View>(R.id.et_last_name) as EditText
+        etUserName = findViewById<View>(R.id.et_user_name) as EditText
         etEmail = findViewById<View>(R.id.et_email) as EditText
         etPassword = findViewById<View>(R.id.et_password) as EditText
         btnCreateAccount = findViewById<View>(R.id.btn_register) as Button
@@ -44,15 +42,7 @@ class Register : AppCompatActivity() {
 
     private fun createNewAccount() {
         val data = HashMap<String, Any>()
-        data["firstName"] = etFirstName?.text.toString()
-        data["lastName"] = etLastName?.text.toString()
-        data["dateExample"] = Timestamp(Date())
-
-
-        /*firstName = etFirstName?.text.toString()
-        lastName = etLastName?.text.toString()
-        email = etEmail?.text.toString()
-        password = etPassword?.text.toString()*/
+        data["userName"] = etUserName?.text.toString()
 
         mAuth!!
             .createUserWithEmailAndPassword(etEmail?.text.toString(),etPassword?.text.toString())

@@ -29,5 +29,6 @@
     <string name="shift">SHIFT</string>
     <string name="mwds">MWDS</string>
     <string name="nsmen">NSMEN</string>
+    <string name="pick_a_date">Pick a Date</string>
 
 </resources>

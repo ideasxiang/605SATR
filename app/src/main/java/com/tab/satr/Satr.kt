@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
+import com.tab.satr.nominalroll.DatePicker
 import com.tab.satr.nominalroll.NominalRoll
 
 class Satr : AppCompatActivity() {
@@ -17,15 +18,15 @@ class Satr : AppCompatActivity() {
         val imgNsmen = findViewById<ImageView>(R.id.imgNsmen)
 
         imgShift.setOnClickListener(){
-           val intent = Intent(this, NominalRoll::class.java)
+           val intent = Intent(this, DatePicker::class.java)
             startActivity(intent)
         }
         imgMwds.setOnClickListener(){
-            val intent = Intent(this, NominalRoll::class.java)
+            val intent = Intent(this, DatePicker::class.java)
             startActivity(intent)
         }
         imgNsmen.setOnClickListener(){
-            val intent = Intent(this, NominalRoll::class.java)
+            val intent = Intent(this, DatePicker::class.java)
             startActivity(intent)
         }
     }

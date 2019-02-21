@@ -30,5 +30,9 @@
     <string name="mwds">MWDS</string>
     <string name="nsmen">NSMEN</string>
     <string name="pick_a_date">Pick a Date</string>
+    <string name="date_picked">Date Picked</string>
+    <string name="DatePicked">Date Picked:</string>
+    <string name="name">Name</string>
+    <string name="status">Status</string>
 
 </resources>

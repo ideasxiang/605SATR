@@ -4,8 +4,6 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
-import com.tab.satr.nominalroll.DatePicker
-import com.tab.satr.nominalroll.NominalRoll
 
 class Satr : AppCompatActivity() {
 

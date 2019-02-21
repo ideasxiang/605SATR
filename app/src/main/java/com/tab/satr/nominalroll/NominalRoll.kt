@@ -1,10 +1,12 @@
 package com.tab.satr.nominalroll
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tab.satr.R
@@ -23,6 +25,15 @@ class NominalRoll : AppCompatActivity() {
         setContentView(R.layout.activity_nominal_roll)
 
         userArrayList = ArrayList()
+
+        var intent: Intent = intent
+        var dayOfMonth = intent.getIntExtra("dayOfMonth",0)
+        var month = intent.getIntExtra("month",0)
+        var year = intent.getIntExtra("year",0)
+
+
+        var date = findViewById<TextView>(R.id.date_picked)
+        date.text = getString(R.string.DatePicked).plus(" $dayOfMonth").plus(".$month").plus(".$year")
 
         setUpRecyclerView()
         setUpFireBase()

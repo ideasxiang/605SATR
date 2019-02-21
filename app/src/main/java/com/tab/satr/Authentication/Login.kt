@@ -1,5 +1,7 @@
 package com.tab.satr.Authentication
 
+import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
@@ -88,6 +90,7 @@ class Login : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         val intent = Intent(this, DashBoard::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                         startActivity(intent)
                         Log.d(s, "Login Successful")
                     } else {

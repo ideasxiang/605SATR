@@ -20,7 +20,7 @@ class Satr : AppCompatActivity() {
             startActivity(intent)
         }
         imgMwds.setOnClickListener(){
-            val intent = Intent(this, DatePicker::class.java)
+            val intent = Intent(this, CoursesDog::class.java)
             startActivity(intent)
         }
         imgNsmen.setOnClickListener(){

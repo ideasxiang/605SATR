@@ -1,5 +1,6 @@
 package com.tab.satr.nominalroll
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -12,7 +13,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.tab.satr.R
 
 
+
+
 class NominalRoll : AppCompatActivity() {
+
+    val MY_PREFS_NAME = "MyPrefsFile"
 
     var db: FirebaseFirestore? = null
     private var mRecyclerView: RecyclerView? = null
@@ -22,18 +27,23 @@ class NominalRoll : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_nominal_roll)
+        setContentView(com.tab.satr.R.layout.activity_nominal_roll)
 
         userArrayList = ArrayList()
 
-        var intent: Intent = intent
-        var dayOfMonth = intent.getIntExtra("dayOfMonth",0)
-        var month = intent.getIntExtra("month",0)
-        var year = intent.getIntExtra("year",0)
+        val intent: Intent = intent
+        val dayOfMonth = intent.getIntExtra("dayOfMonth",0)
+        val month = intent.getIntExtra("month",0)
+        val year = intent.getIntExtra("year",0)
 
+        val prefs = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE)
+        val courses = prefs.getString("courses", "No courses defined")
 
-        var date = findViewById<TextView>(R.id.date_picked)
-        date.text = getString(R.string.DatePicked).plus(" $dayOfMonth").plus(".$month").plus(".$year")
+        val date = findViewById<TextView>(R.id.date_picked)
+        date.text = getString(R.string.DatePicked).plus(" $dayOfMonth").plus(" / $month").plus(" / $year")
+
+        val coursespicked = findViewById<TextView>(R.id.courses)
+        coursespicked.text = getString(R.string.courses_picked).plus(" $courses")
 
         setUpRecyclerView()
         setUpFireBase()

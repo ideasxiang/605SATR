@@ -34,5 +34,20 @@
     <string name="DatePicked">Date Picked:</string>
     <string name="name">Name</string>
     <string name="status">Status</string>
+    <string name="arrest">Arrest</string>
+    <string name="attack">Attack</string>
+    <string name="perimeter">Perimeter</string>
+    <string name="dog_handle">Dog handle</string>
+    <string name="explosive">Explosive</string>
+    <string name="rules">Rules</string>
+    <string name="live_firing">Live Firing</string>
+    <string name="dog">Dog Icon</string>
+    <string name="handcuff">Handcuff Icon</string>
+    <string name="fence">fence Icon</string>
+    <string name="attack_dog">Attack dog Icon</string>
+    <string name="bomb">Bomb Icon</string>
+    <string name="rules_icon">Rules Icon</string>
+    <string name="live_firing_icon">Live Firing Icon</string>
+    <string name="courses_picked">Courses Picked:</string>
 
 </resources>

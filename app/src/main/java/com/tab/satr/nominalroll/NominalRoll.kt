@@ -78,7 +78,7 @@ class NominalRoll : AppCompatActivity() {
             recordsArrayList!!.clear()
 
         val usercourses = db.collection("satr_courses")
-        val query = usercourses.whereEqualTo("date", datedisplay)
+        val query = usercourses.whereEqualTo("date", datedisplay).whereEqualTo("course_name",coursespicked)
         
         query
             .get()

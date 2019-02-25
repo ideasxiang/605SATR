@@ -64,10 +64,16 @@ class NominalRoll : AppCompatActivity() {
 
         val datetrack = PreferenceManager.getDefaultSharedPreferences(this)
         val datetrackeditor = datetrack.edit()
-        val previousdatetrack = datetrack.getString("date","1/1/2001")
+        val previousdatetrack = datetrack.getString("datetrack","nil")
 
-        if (previousdatetrack != datedisplay) {
-            datetrackeditor.putString("date",datedisplay)
+        val coursetrack = PreferenceManager.getDefaultSharedPreferences(this)
+        val coursetrackeditor = coursetrack.edit()
+        val previouscoursetrack = coursetrack.getString("coursetrack","nil")
+
+        if (previousdatetrack != datedisplay || previouscoursetrack != coursespicked) {
+            datetrackeditor.putString("datetrack",datedisplay)
+            datetrackeditor.apply()
+            datetrackeditor.putString("coursetrack",coursespicked)
             datetrackeditor.apply()
             db.collection("satr_courses").add(SIN)
         }

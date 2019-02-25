@@ -12,6 +12,8 @@ import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tab.satr.R
 import android.preference.PreferenceManager
+import java.util.HashMap
+
 
 class NominalRoll : AppCompatActivity() {
 
@@ -20,15 +22,18 @@ class NominalRoll : AppCompatActivity() {
     var db: FirebaseFirestore = FirebaseFirestore.getInstance()
     var mRecyclerView: RecyclerView? = null
     private var recordsArrayList: java.util.ArrayList<Records>? = null
+    private var usersArrayList: java.util.ArrayList<Users>? = null
     private var adapter: MyRecyclerViewAdapter? = null
     var coursespicked: String?= null
     var datedisplay: String? = null
+    val usersMap = HashMap<Any?,Any?>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.tab.satr.R.layout.activity_nominal_roll)
 
         recordsArrayList = ArrayList()
+        usersArrayList = ArrayList()
 
         val dayOfMonth = intent.getIntExtra("dayOfMonth",0)
         val month = intent.getIntExtra("month",0)
@@ -49,18 +54,11 @@ class NominalRoll : AppCompatActivity() {
 
         addInitialNominalRoll()
         setUpRecyclerView()
+        Thread.sleep(1)
         loadDataFromFirebase()
     }
 
     private fun addInitialNominalRoll() {
-
-        val SIN = Users(
-            coursespicked!!,
-            datedisplay!!,
-            "SQN HQ",
-            "SIN REN XIANG",
-            false
-        )
 
         val datetrack = PreferenceManager.getDefaultSharedPreferences(this)
         val datetrackeditor = datetrack.edit()
@@ -75,8 +73,23 @@ class NominalRoll : AppCompatActivity() {
             datetrackeditor.apply()
             coursetrackeditor.putString("coursetrack",coursespicked)
             coursetrackeditor.apply()
-            db.collection("satr_courses").add(SIN)
+            generateUserList()
         }
+    }
+
+    private fun generateUserList() {
+        db.collection("users")
+            .get()
+            .addOnCompleteListener { task ->
+                for (ds in task.result!!) {
+                    usersMap["date"] = datedisplay
+                    usersMap["department"] = ds.getString("department")
+                    usersMap["name"] = ds.getString("name")
+                    usersMap["present"] = false
+                    usersMap["course_name"] = coursespicked
+                    db.collection("satr_courses").add(usersMap)
+                }
+            }
     }
 
     private fun loadDataFromFirebase() {

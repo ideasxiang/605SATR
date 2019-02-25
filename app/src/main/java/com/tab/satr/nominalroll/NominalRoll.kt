@@ -73,8 +73,8 @@ class NominalRoll : AppCompatActivity() {
         if (previousdatetrack != datedisplay || previouscoursetrack != coursespicked) {
             datetrackeditor.putString("datetrack",datedisplay)
             datetrackeditor.apply()
-            datetrackeditor.putString("coursetrack",coursespicked)
-            datetrackeditor.apply()
+            coursetrackeditor.putString("coursetrack",coursespicked)
+            coursetrackeditor.apply()
             db.collection("satr_courses").add(SIN)
         }
     }

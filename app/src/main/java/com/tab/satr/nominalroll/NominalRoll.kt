@@ -10,8 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.tab.satr.R
+import android.preference.PreferenceManager
 
 class NominalRoll : AppCompatActivity() {
 
@@ -53,6 +53,7 @@ class NominalRoll : AppCompatActivity() {
     }
 
     private fun addInitialNominalRoll() {
+
         val SIN = Users(
             coursespicked!!,
             datedisplay!!,
@@ -60,16 +61,25 @@ class NominalRoll : AppCompatActivity() {
             "SIN REN XIANG",
             false
         )
-        db.collection("satr_courses")
-            .add(SIN)
+
+        val datetrack = PreferenceManager.getDefaultSharedPreferences(this)
+        val datetrackeditor = datetrack.edit()
+        val previousdatetrack = datetrack.getString("date","1/1/2001")
+
+        if (previousdatetrack != datedisplay) {
+            datetrackeditor.putString("date",datedisplay)
+            datetrackeditor.apply()
+            db.collection("satr_courses").add(SIN)
+        }
     }
 
-    fun loadDataFromFirebase() {
+    private fun loadDataFromFirebase() {
         if (recordsArrayList!!.size > 0)
             recordsArrayList!!.clear()
 
         val usercourses = db.collection("satr_courses")
         val query = usercourses.whereEqualTo("date", datedisplay)
+        
         query
             .get()
             .addOnCompleteListener { task ->

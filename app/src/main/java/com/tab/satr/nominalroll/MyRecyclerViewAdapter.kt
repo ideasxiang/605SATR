@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.tab.satr.R
 import java.util.*
 
-class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var userArrayList: ArrayList<com.tab.satr.nominalroll.Records>?) :
+class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var recordsArrayList: ArrayList<com.tab.satr.nominalroll.Records>?) :
     RecyclerView.Adapter<MyRecyclerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyRecyclerViewHolder {
@@ -20,14 +20,14 @@ class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var u
 
     override fun onBindViewHolder(holder: MyRecyclerViewHolder, position: Int) {
 
-        holder.mUserName.text = userArrayList!![position].name
-        holder.mCheckBox.isChecked = userArrayList!![position].present
+        holder.mUserName.text = recordsArrayList!![position].name
+        holder.mCheckBox.isChecked = recordsArrayList!![position].present
         holder.mCheckBox.setOnClickListener {
             val data = HashMap<String,Any?>()
             val checked: Boolean = holder.mCheckBox.isChecked
             data["present"] = checked
             mainActivity.db.collection("satr_courses")
-                    .document(userArrayList!![position].documentId)
+                    .document(recordsArrayList!![position].documentId)
                     .update(data)
         }
         if(position %2 == 1)
@@ -46,7 +46,7 @@ class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var u
     }
 
     override fun getItemCount(): Int {
-        return userArrayList!!.size
+        return recordsArrayList!!.size
     }
 
 }

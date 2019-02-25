@@ -49,5 +49,6 @@
     <string name="rules_icon">Rules Icon</string>
     <string name="live_firing_icon">Live Firing Icon</string>
     <string name="courses_picked">Courses Picked:</string>
+    <string name="refresh">Refresh</string>
 
 </resources>

@@ -1,22 +1,13 @@
 package com.tab.satr.nominalroll
 
 import android.graphics.Color
-import android.support.annotation.RequiresPermission
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.LayoutInflater
-
-import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.TextView
 import com.tab.satr.R
 import java.util.*
-import kotlin.collections.HashMap
 
-
-
-class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var userArrayList: ArrayList<com.tab.satr.nominalroll.User>?) :
+class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var userArrayList: ArrayList<com.tab.satr.nominalroll.Records>?) :
     RecyclerView.Adapter<MyRecyclerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyRecyclerViewHolder {
@@ -29,13 +20,15 @@ class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var u
 
     override fun onBindViewHolder(holder: MyRecyclerViewHolder, position: Int) {
 
-        holder.mUserName.text = userArrayList!![position].userName
-        holder.mCheckBox.isChecked = userArrayList!![position].checked
+        holder.mUserName.text = userArrayList!![position].name
+        holder.mCheckBox.isChecked = userArrayList!![position].present
         holder.mCheckBox.setOnClickListener {
-            val checked: Boolean = holder.mCheckBox.isChecked
             val data = HashMap<String,Any?>()
-            data["checked"] = checked
-            mainActivity.db!!.collection("users").document(userArrayList!![position].userName).update(data)
+            val checked: Boolean = holder.mCheckBox.isChecked
+            data["present"] = checked
+            mainActivity.db.collection("satr_courses")
+                    .document(userArrayList!![position].documentId)
+                    .update(data)
         }
         if(position %2 == 1)
         {
@@ -56,7 +49,4 @@ class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var u
         return userArrayList!!.size
     }
 
-    private fun onCheckboxClicked(view: View) {
-
-        }
 }

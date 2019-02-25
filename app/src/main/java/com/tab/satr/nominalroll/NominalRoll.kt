@@ -1,75 +1,96 @@
 package com.tab.satr.nominalroll
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.tab.satr.R
 
 class NominalRoll : AppCompatActivity() {
 
     val MY_PREFS_NAME = "MyPrefsFile"
 
-    var db: FirebaseFirestore? = null
+    var db: FirebaseFirestore = FirebaseFirestore.getInstance()
     var mRecyclerView: RecyclerView? = null
-    private var userArrayList: java.util.ArrayList<User>? = null
+    private var recordsArrayList: java.util.ArrayList<Records>? = null
     private var adapter: MyRecyclerViewAdapter? = null
-    var checked: Boolean? = null
+    var coursespicked: String?= null
+    var datedisplay: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.tab.satr.R.layout.activity_nominal_roll)
 
-        userArrayList = ArrayList()
+        recordsArrayList = ArrayList()
 
-        val intent: Intent = intent
         val dayOfMonth = intent.getIntExtra("dayOfMonth",0)
         val month = intent.getIntExtra("month",0)
         val year = intent.getIntExtra("year",0)
 
+        datedisplay = "$dayOfMonth/$month/$year"
+
         val prefs = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE)
-        val courses = prefs.getString("courses", "No courses defined")
+        coursespicked = prefs.getString("courses", "No courses defined")
 
-        val date = findViewById<TextView>(R.id.date_picked)
-        date.text = getString(R.string.DatePicked).plus(" $dayOfMonth").plus(" / $month").plus(" / $year")
+        val dateview = findViewById<TextView>(R.id.date_picked)
+        val txtcoursespicked = findViewById<TextView>(R.id.courses)
+        val refreshBtn = findViewById<ImageView>(R.id.btn_refresh)
 
-        val coursespicked = findViewById<TextView>(R.id.courses)
-        coursespicked.text = getString(R.string.courses_picked).plus(" $courses")
+        dateview.text = datedisplay
+        txtcoursespicked.text = "$coursespicked"
+        refreshBtn.setOnClickListener{loadDataFromFirebase()}
 
+        addInitialNominalRoll()
         setUpRecyclerView()
-        setUpFireBase()
         loadDataFromFirebase()
     }
 
-    fun loadDataFromFirebase() {
+    private fun addInitialNominalRoll() {
+        val SIN = Users(
+            coursespicked!!,
+            datedisplay!!,
+            "SQN HQ",
+            "SIN REN XIANG",
+            false
+        )
+        db.collection("satr_courses")
+            .add(SIN)
+    }
 
-        db!!.collection("users")
+    fun loadDataFromFirebase() {
+        if (recordsArrayList!!.size > 0)
+            recordsArrayList!!.clear()
+
+        val usercourses = db.collection("satr_courses")
+        val query = usercourses.whereEqualTo("date", datedisplay)
+        query
             .get()
             .addOnCompleteListener { task ->
                 for (documentSnapshot in task.result!!) {
-                    val user = User(
-                        documentSnapshot.getString("username")!!,
-                            documentSnapshot.getBoolean("checked")!!
+                    val satrcourses = Records(
+                            documentSnapshot.id,
+                            documentSnapshot.getString("course_name")!!,
+                            documentSnapshot.getString("date")!!,
+                            documentSnapshot.getString("department")!!,
+                            documentSnapshot.getString("name")!!,
+                            documentSnapshot.getBoolean("present")!!
                     )
-                    userArrayList!!.add(user)
+                    recordsArrayList!!.add(satrcourses)
                 }
-                adapter = MyRecyclerViewAdapter(this@NominalRoll, userArrayList)
+                adapter = MyRecyclerViewAdapter(this@NominalRoll, recordsArrayList)
                 mRecyclerView!!.adapter = adapter
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this@NominalRoll, "Problem ---1---", Toast.LENGTH_SHORT).show()
                 Log.w("---1---", e.message)
             }
-    }
-
-    private fun setUpFireBase() {
-        db = FirebaseFirestore.getInstance()
     }
 
     private fun setUpRecyclerView() {

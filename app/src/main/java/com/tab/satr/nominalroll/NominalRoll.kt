@@ -10,11 +10,14 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.tab.satr.R
 import java.util.HashMap
 import kotlin.collections.ArrayList
 import kotlin.collections.set
+import kotlin.concurrent.thread
 
 
 class NominalRoll : AppCompatActivity() {
@@ -58,6 +61,7 @@ class NominalRoll : AppCompatActivity() {
 
         addInitialNominalRoll()
         setUpRecyclerView()
+        Thread.sleep(1000)
         loadDataFromFirebase()
 
         refreshBtn.setOnClickListener{loadDataFromFirebase()}
@@ -65,19 +69,23 @@ class NominalRoll : AppCompatActivity() {
 
     private fun addInitialNominalRoll() {
 
-        val datetrack = PreferenceManager.getDefaultSharedPreferences(this)
-        val datetrackeditor = datetrack.edit()
-        val previousdatetrack = datetrack.getString("datetrack","nil")
+        var datetrack = ""
+        var coursetrack = ""
 
-        val coursetrack = PreferenceManager.getDefaultSharedPreferences(this)
-        val coursetrackeditor = coursetrack.edit()
-        val previouscoursetrack = coursetrack.getString("coursetrack","nil")
+        val query = usercourses
+            .whereEqualTo("date", datedisplay)
+            .whereEqualTo("course_name",coursespicked)
 
-        if (previousdatetrack != datedisplay || previouscoursetrack != coursespicked) {
-            datetrackeditor.putString("datetrack",datedisplay)
-            datetrackeditor.apply()
-            coursetrackeditor.putString("coursetrack",coursespicked)
-            coursetrackeditor.apply()
+        query
+            .get()
+            .addOnCompleteListener {task ->
+                for (ds in task.result!!) {
+                    datetrack = ds.getString("date")!!
+                    coursetrack = ds.getString("course_name")!!
+                }
+            }
+
+        if (datetrack != datedisplay || coursetrack != coursespicked) {
             generateUserList()
         }
     }

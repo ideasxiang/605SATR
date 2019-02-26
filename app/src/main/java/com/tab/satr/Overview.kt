@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 
 class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
@@ -51,7 +52,9 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-
+        when(parent.selectedItem.toString()){
+            "Jan 2019" -> {Toast.makeText(this,"Jan 2019",Toast.LENGTH_SHORT).show()}
+        }
     }
 
     private fun getTotal(){

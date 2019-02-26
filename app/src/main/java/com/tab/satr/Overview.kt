@@ -13,7 +13,6 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     var db: FirebaseFirestore = FirebaseFirestore.getInstance()
     val usercourses = db.collection("satr_courses")
     val users = db.collection("users")
-    var yearSelected = 0
     var shiftpresentvalue = 0
     var mwdspresentvalue = 0
     var nsmenpresentvalue = 0
@@ -52,7 +51,7 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-        yearSelected = Integer.parseInt(parent.selectedItem.toString())
+
     }
 
     private fun getTotal(){

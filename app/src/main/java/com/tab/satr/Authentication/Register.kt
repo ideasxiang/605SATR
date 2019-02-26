@@ -11,9 +11,6 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tab.satr.R
-import java.util.*
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 
 class Register : AppCompatActivity() {

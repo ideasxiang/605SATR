@@ -15,15 +15,15 @@ class Satr : AppCompatActivity() {
         val imgMwds = findViewById<ImageView>(R.id.imgMwds)
         val imgNsmen = findViewById<ImageView>(R.id.imgNsmen)
 
-        imgShift.setOnClickListener(){
+        imgShift.setOnClickListener {
            val intent = Intent(this, DatePicker::class.java)
             startActivity(intent)
         }
-        imgMwds.setOnClickListener(){
+        imgMwds.setOnClickListener {
             val intent = Intent(this, CoursesDog::class.java)
             startActivity(intent)
         }
-        imgNsmen.setOnClickListener(){
+        imgNsmen.setOnClickListener {
             val intent = Intent(this, DatePicker::class.java)
             startActivity(intent)
         }

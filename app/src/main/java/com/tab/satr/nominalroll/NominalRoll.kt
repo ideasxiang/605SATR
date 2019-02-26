@@ -2,6 +2,7 @@ package com.tab.satr.nominalroll
 
 import android.content.Context
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -11,9 +12,9 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tab.satr.R
-import android.preference.PreferenceManager
-import android.widget.Button
 import java.util.HashMap
+import kotlin.collections.ArrayList
+import kotlin.collections.set
 
 
 class NominalRoll : AppCompatActivity() {
@@ -50,7 +51,7 @@ class NominalRoll : AppCompatActivity() {
         val dateview = findViewById<TextView>(R.id.date_picked)
         val txtcoursespicked = findViewById<TextView>(R.id.courses)
         val refreshBtn = findViewById<ImageView>(R.id.btn_refresh)
-        saveBtn = findViewById<ImageView>(R.id.btn_save)
+        saveBtn = findViewById(R.id.btn_save)
 
         dateview.text = datedisplay
         txtcoursespicked.text = "$coursespicked"
@@ -93,7 +94,7 @@ class NominalRoll : AppCompatActivity() {
                     usersMap["course_name"] = coursespicked
                     usersMap["vocation"] = ds.getString("vocation")
                     usersMap["cycle"] = ds.getString("cycle")
-                    usersMap["reason"] = "none"
+                    usersMap["reason"] = ""
                     db.collection("satr_courses").add(usersMap)
                 }
             }

@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toEndOf="@+id/imgSatr"
             android:layout_marginStart="16dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
-            app:layout_constraintHorizontal_bias="0.0"/>
+            app:layout_constraintHorizontal_bias="0.078"/>
     <TextView
             android:text="@string/satr"
             android:layout_width="wrap_content"
@@ -40,5 +40,21 @@
             app:layout_constraintTop_toBottomOf="@+id/imgParadeState" app:layout_constraintStart_toEndOf="@+id/satr"
             android:layout_marginStart="16dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
-            app:layout_constraintHorizontal_bias="0.0"/>
+            app:layout_constraintHorizontal_bias="0.047"/>
+    <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp" app:srcCompat="@drawable/ic_poll_black_24dp"
+            android:id="@+id/overview"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/imgParadeState" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="16dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
+            app:layout_constraintHorizontal_bias="0.186"/>
+    <TextView
+            android:text="@string/overview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/txt_overview"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/overview" android:layout_marginStart="12dp"
+            app:layout_constraintStart_toEndOf="@+id/paradestate" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp" app:layout_constraintHorizontal_bias="0.067"/>
 </android.support.constraint.ConstraintLayout>

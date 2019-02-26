@@ -13,6 +13,7 @@ class DashBoard : AppCompatActivity() {
 
         val imgSatr = findViewById<ImageView>(R.id.imgSatr)
         val imgParadeState = findViewById<ImageView>(R.id.imgParadeState)
+        val imgOverview = findViewById<ImageView>(R.id.overview)
 
         imgSatr.setOnClickListener(){
             val intent = Intent(this, Satr::class.java)
@@ -21,6 +22,11 @@ class DashBoard : AppCompatActivity() {
 
         imgParadeState.setOnClickListener(){
             val intent = Intent(this, ParadeState::class.java)
+            startActivity(intent)
+        }
+
+        imgOverview.setOnClickListener(){
+            val intent = Intent(this, Overview::class.java)
             startActivity(intent)
         }
     }

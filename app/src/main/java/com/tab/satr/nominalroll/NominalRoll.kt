@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tab.satr.R
 import android.preference.PreferenceManager
+import android.widget.Button
 import java.util.HashMap
 
 
@@ -27,6 +28,8 @@ class NominalRoll : AppCompatActivity() {
     var coursespicked: String?= null
     var datedisplay: String? = null
     val usersMap = HashMap<Any?,Any?>()
+    val usercourses = db.collection("satr_courses")
+    var saveBtn: ImageView?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,15 +50,16 @@ class NominalRoll : AppCompatActivity() {
         val dateview = findViewById<TextView>(R.id.date_picked)
         val txtcoursespicked = findViewById<TextView>(R.id.courses)
         val refreshBtn = findViewById<ImageView>(R.id.btn_refresh)
+        saveBtn = findViewById<ImageView>(R.id.btn_save)
 
         dateview.text = datedisplay
         txtcoursespicked.text = "$coursespicked"
-        refreshBtn.setOnClickListener{loadDataFromFirebase()}
 
         addInitialNominalRoll()
         setUpRecyclerView()
-        Thread.sleep(1)
         loadDataFromFirebase()
+
+        refreshBtn.setOnClickListener{loadDataFromFirebase()}
     }
 
     private fun addInitialNominalRoll() {
@@ -87,6 +91,9 @@ class NominalRoll : AppCompatActivity() {
                     usersMap["name"] = ds.getString("name")
                     usersMap["present"] = false
                     usersMap["course_name"] = coursespicked
+                    usersMap["vocation"] = ds.getString("vocation")
+                    usersMap["cycle"] = ds.getString("cycle")
+                    usersMap["reason"] = "none"
                     db.collection("satr_courses").add(usersMap)
                 }
             }
@@ -96,20 +103,24 @@ class NominalRoll : AppCompatActivity() {
         if (recordsArrayList!!.size > 0)
             recordsArrayList!!.clear()
 
-        val usercourses = db.collection("satr_courses")
-        val query = usercourses.whereEqualTo("date", datedisplay).whereEqualTo("course_name",coursespicked)
+        val query = usercourses
+            .whereEqualTo("date", datedisplay)
+            .whereEqualTo("course_name",coursespicked)
         
         query
             .get()
             .addOnCompleteListener { task ->
                 for (documentSnapshot in task.result!!) {
                     val satrcourses = Records(
-                            documentSnapshot.id,
-                            documentSnapshot.getString("course_name")!!,
-                            documentSnapshot.getString("date")!!,
-                            documentSnapshot.getString("department")!!,
-                            documentSnapshot.getString("name")!!,
-                            documentSnapshot.getBoolean("present")!!
+                        documentSnapshot.id,
+                        documentSnapshot.getString("course_name")!!,
+                        documentSnapshot.getString("date")!!,
+                        documentSnapshot.getString("department")!!,
+                        documentSnapshot.getString("name")!!,
+                        documentSnapshot.getBoolean("present")!!,
+                        documentSnapshot.getString("vocation")!!,
+                        documentSnapshot.getString("cycle")!!,
+                        documentSnapshot.getString("reason")!!
                     )
                     recordsArrayList!!.add(satrcourses)
                 }

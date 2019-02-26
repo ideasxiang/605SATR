@@ -10,6 +10,9 @@ import java.util.*
 class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var recordsArrayList: ArrayList<com.tab.satr.nominalroll.Records>?) :
     RecyclerView.Adapter<MyRecyclerViewHolder>() {
 
+    val data = HashMap<String,Any?>()
+    var reasonText: String = ""
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyRecyclerViewHolder {
 
         val layoutInflater = LayoutInflater.from(mainActivity.baseContext)
@@ -22,11 +25,18 @@ class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var r
 
         holder.mUserName.text = recordsArrayList!![position].name
         holder.mCheckBox.isChecked = recordsArrayList!![position].present
+        holder.mEditExplanation.setText(recordsArrayList!![position].reason)
+        mainActivity.saveBtn!!.setOnClickListener{
+            reasonText = holder.mEditExplanation.text.toString()
+            data["reason"] = reasonText
+            mainActivity.usercourses
+                .document(recordsArrayList!![position].documentId)
+                .update(data)
+        }
         holder.mCheckBox.setOnClickListener {
-            val data = HashMap<String,Any?>()
             val checked: Boolean = holder.mCheckBox.isChecked
             data["present"] = checked
-            mainActivity.db.collection("satr_courses")
+            mainActivity.usercourses
                     .document(recordsArrayList!![position].documentId)
                     .update(data)
         }
@@ -35,12 +45,14 @@ class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var r
             // Set a background color for ListView regular row/item
             holder.mUserName.setBackgroundColor(Color.parseColor("#e6ffe6"))
             holder.mCheckBox.setBackgroundColor(Color.parseColor("#e6ffe6"))
+            holder.mEditExplanation.setBackgroundColor(Color.parseColor("#e6ffe6"))
         }
         else
         {
             // Set the background color for alternate row/item
             holder.mUserName.setBackgroundColor(Color.parseColor("#fff69b"))
             holder.mCheckBox.setBackgroundColor(Color.parseColor("#fff69b"))
+            holder.mEditExplanation.setBackgroundColor(Color.parseColor("#fff69b"))
         }
 
     }

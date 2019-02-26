@@ -50,5 +50,22 @@
     <string name="live_firing_icon">Live Firing Icon</string>
     <string name="courses_picked">Courses Picked:</string>
     <string name="refresh">Refresh</string>
+    <string name="overview">Overview</string>
+    <string name="_605_satr_performance">605 SATR Performance</string>
+    <string name="mwds_satr_requirement_met">MWDS SATR Requirement Met</string>
+    <string name="shift_satr_requirement_met">Shift SATR Requirement Met</string>
+    <string name="nsmen_satr_requirement_met">NSMEN SATR Requirement Met</string>
+    <string name="reason">reason</string>
+
+    <string-array name="years_array">
+        <item>Jan 2019</item>
+        <item>Jul 2019</item>
+        <item>Jan 2020</item>
+        <item>Jul 2020</item>
+        <item>Jan 2021</item>
+        <item>Jul 2021</item>
+        <item>Jan 2022</item>
+        <item>Jul 2022</item>
+    </string-array>
 
 </resources>

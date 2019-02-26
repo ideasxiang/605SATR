@@ -4,26 +4,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
   <RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/top_bar">
-    <TextView
-        android:id="@+id/courses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_marginStart="12dp"
-        android:textStyle="italic"
-        android:text="@string/courses_picked"/>
+        android:id="@+id/top_bar">
     <TextView
-        android:text="@string/date_picked"
-        android:layout_width="wrap_content"
-        android:layout_marginStart="12dp"
-        android:textSize="14sp"
-        android:textStyle="italic"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/courses"
-        android:id="@+id/date_picked"/>
+            android:id="@+id/courses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginStart="12dp"
+            android:textStyle="italic"
+            android:text="@string/courses_picked"/>
+    <TextView
+            android:text="@string/date_picked"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/courses"
+            android:id="@+id/date_picked"/>
     <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true">
       <ImageButton
               android:layout_width="wrap_content"
@@ -40,31 +40,40 @@
     </LinearLayout>
   </RelativeLayout>
   <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/LinearText"
-    android:layout_below="@+id/top_bar">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/LinearText"
+        android:layout_below="@+id/top_bar">
     <TextView
-      android:text="@string/name"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:textSize="14sp"
-      android:layout_weight="15"
-      android:layout_marginStart="2dp"
-      android:textStyle="bold"
-      android:id="@+id/name"/>
+            android:text="@string/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_weight="12"
+            android:layout_marginStart="2dp"
+            android:textStyle="bold"
+            android:id="@+id/name"/>
     <TextView
-      android:text="@string/status"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:textSize="14sp"
-      android:layout_weight="2"
-      android:textStyle="bold"
-      android:id="@+id/status"/>
+            android:text="@string/reason_caps"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_weight="4"
+            android:layout_marginStart="2dp"
+            android:textStyle="bold"
+            android:id="@+id/Reason"/>
+    <TextView
+          android:text="@string/status"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:textSize="14sp"
+          android:layout_weight="3"
+          android:textStyle="bold"
+          android:id="@+id/status"/>
   </LinearLayout>
   <android.support.v7.widget.RecyclerView
-    android:id="@+id/mRecyclerView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/LinearText"/>
+        android:id="@+id/mRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LinearText"/>
 </RelativeLayout>

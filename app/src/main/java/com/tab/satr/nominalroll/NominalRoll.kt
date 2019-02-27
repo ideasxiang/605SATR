@@ -10,15 +10,10 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import com.tab.satr.R
 import java.util.HashMap
 import kotlin.collections.ArrayList
-import kotlin.collections.set
-import kotlin.concurrent.thread
-
 
 class NominalRoll : AppCompatActivity() {
 
@@ -43,7 +38,7 @@ class NominalRoll : AppCompatActivity() {
         usersArrayList = ArrayList()
 
         val dayOfMonth = intent.getIntExtra("dayOfMonth",0)
-        val month = intent.getIntExtra("month",0)
+        val month = intent.getIntExtra("month",0) + 1
         val year = intent.getIntExtra("year",0)
 
         datedisplay = "$dayOfMonth/$month/$year"
@@ -56,12 +51,12 @@ class NominalRoll : AppCompatActivity() {
         val refreshBtn = findViewById<ImageView>(R.id.btn_refresh)
         saveBtn = findViewById(R.id.btn_save)
 
+
         dateview.text = datedisplay
         txtcoursespicked.text = "$coursespicked"
 
         addInitialNominalRoll()
         setUpRecyclerView()
-        Thread.sleep(1000)
         loadDataFromFirebase()
 
         refreshBtn.setOnClickListener{loadDataFromFirebase()}
@@ -69,25 +64,19 @@ class NominalRoll : AppCompatActivity() {
 
     private fun addInitialNominalRoll() {
 
-        var datetrack = ""
-        var coursetrack = ""
-
-        val query = usercourses
-            .whereEqualTo("date", datedisplay)
-            .whereEqualTo("course_name",coursespicked)
-
-        query
-            .get()
-            .addOnCompleteListener {task ->
-                for (ds in task.result!!) {
-                    datetrack = ds.getString("date")!!
-                    coursetrack = ds.getString("course_name")!!
+        db.collection("satr_courses")
+            .document("docRef").get()
+            .addOnSuccessListener{result ->
+                    val datetrack = result.getString("datetrack")!!
+                    val coursetrack = result.getString("coursetrack")!!
+                if (datetrack != datedisplay || coursetrack != coursespicked) {
+                    db.collection("satr_courses")
+                        .document("docRef").update("coursetrack",coursespicked)
+                    db.collection("satr_courses")
+                        .document("docRef").update("datetrack",datedisplay)
+                    generateUserList()
                 }
             }
-
-        if (datetrack != datedisplay || coursetrack != coursespicked) {
-            generateUserList()
-        }
     }
 
     private fun generateUserList() {

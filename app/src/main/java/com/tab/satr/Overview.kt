@@ -3,32 +3,32 @@ package com.tab.satr
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.functions.FirebaseFunctions
 
 class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
-    var db: FirebaseFirestore = FirebaseFirestore.getInstance()
-    val usercourses = db.collection("satr_courses")
-    val users = db.collection("users")
-    var shiftpresentvalue = 0
-    var mwdspresentvalue = 0
-    var nsmenpresentvalue = 0
-    var shifttotalvalue = 0
-    var mwdstotalvalue = 0
-    var nsmentotalvalue = 0
+    var shiftpercentage: TextView ?= null
+    var mwdspercentage: TextView ?= null
+    var nsmenpercentage: TextView ?= null
+    var shifttotal: String ?= null
+    private lateinit var functions: FirebaseFunctions
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_overview)
 
-        getPresent()
-        getTotal()
+        shiftpercentage =  findViewById(R.id.shift_percentage)
+        mwdspercentage = findViewById(R.id.mwds_percentage)
+        nsmenpercentage = findViewById(R.id.nsmen_percentage)
+
         initializeSpinner()
 
+        functions = FirebaseFunctions.getInstance()
+
+        shiftpercentage!!.text = shifttotal
     }
 
     private fun initializeSpinner() {
@@ -55,90 +55,5 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         when(parent.selectedItem.toString()){
             "Jan 2019" -> {Toast.makeText(this,"Jan 2019",Toast.LENGTH_SHORT).show()}
         }
-    }
-
-    private fun getTotal(){
-        val shiftOverview = users
-            .whereEqualTo("department","shift")
-        val mwdsOverview = users
-            .whereEqualTo("department","mwds")
-        val nsmenOverview = users
-            .whereEqualTo("department","nsmen")
-
-        if (shifttotalvalue>0){
-            shifttotalvalue = 0
-        }
-        if (mwdstotalvalue>0){
-            mwdstotalvalue = 0
-        }
-        if (nsmentotalvalue>0){
-            nsmentotalvalue = 0
-        }
-
-        shiftOverview
-            .get()
-            .addOnCompleteListener {task->
-                for (ds in task.result!!){
-                    shifttotalvalue += 1
-                }
-            }
-        mwdsOverview
-            .get()
-            .addOnCompleteListener {task->
-                for (ds in task.result!!){
-                    mwdstotalvalue += 1
-                }
-            }
-        nsmenOverview
-            .get()
-            .addOnCompleteListener {task->
-                for (ds in task.result!!){
-                    nsmentotalvalue += 1
-                }
-            }
-    }
-
-    private fun getPresent(){
-        val shiftOverview = usercourses
-            .whereEqualTo("present", true)
-            .whereEqualTo("department","shift")
-        val mwdsOverview = usercourses
-            .whereEqualTo("present", true)
-            .whereEqualTo("department","mwds")
-        val nsmenOverview = usercourses
-            .whereEqualTo("present", true)
-            .whereEqualTo("department","nsmen")
-
-        if (shiftpresentvalue>0){
-            shiftpresentvalue = 0
-        }
-        if (mwdspresentvalue>0){
-            mwdspresentvalue = 0
-        }
-        if (nsmenpresentvalue>0){
-            nsmenpresentvalue = 0
-        }
-
-        shiftOverview
-            .get()
-            .addOnCompleteListener {task->
-                for (ds in task.result!!){
-                    shiftpresentvalue += 1
-                }
-            }
-        mwdsOverview
-            .get()
-            .addOnCompleteListener {task->
-                for (ds in task.result!!){
-                    mwdspresentvalue += 1
-                }
-            }
-        nsmenOverview
-            .get()
-            .addOnCompleteListener {task->
-                for (ds in task.result!!){
-                    nsmenpresentvalue += 1
-                }
-            }
     }
 }

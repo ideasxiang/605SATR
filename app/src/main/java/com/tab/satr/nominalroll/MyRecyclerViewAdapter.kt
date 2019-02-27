@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import com.tab.satr.R
 import java.util.*
 
@@ -32,6 +33,7 @@ class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var r
             mainActivity.usercourses
                 .document(recordsArrayList!![position].documentId)
                 .update(data)
+            Toast.makeText(mainActivity,"Saved",Toast.LENGTH_SHORT).show()
         }
         holder.mCheckBox.setOnClickListener {
             val checked: Boolean = holder.mCheckBox.isChecked

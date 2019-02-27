@@ -59,7 +59,10 @@ class NominalRoll : AppCompatActivity() {
         setUpRecyclerView()
         loadDataFromFirebase()
 
-        refreshBtn.setOnClickListener{loadDataFromFirebase()}
+        refreshBtn.setOnClickListener{
+            loadDataFromFirebase()
+            Toast.makeText(this,"Refreshed",Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun addInitialNominalRoll() {

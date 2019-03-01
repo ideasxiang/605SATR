@@ -16,6 +16,7 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     var shiftpercentage: TextView ?= null
     var mwdspercentage: TextView ?= null
     var nsmenpercentage: TextView ?= null
+    var irfpercentage: TextView ?= null
     var startselecteddate: Long ?= null
     var endselecteddate: Long ?= null
     private lateinit var functions: FirebaseFunctions
@@ -30,9 +31,13 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         shiftpercentage =  findViewById(R.id.shift_percentage)
         mwdspercentage = findViewById(R.id.mwds_percentage)
         nsmenpercentage = findViewById(R.id.nsmen_percentage)
+        irfpercentage = findViewById(R.id.irf_percentage)
 
         initializeSpinner()
-        getPercent("shift1",shiftpercentage!!)
+        //getPercent("shift",shiftpercentage!!)
+        getPercent("mwds",mwdspercentage!!)
+        //getPercent("nsmen",nsmenpercentage!!)
+        //getPercent("irf",irfpercentage!!)
     }
 
     private fun getPercent(department: String,viewchange: TextView){

@@ -57,6 +57,7 @@
     <string name="nsmen_satr_requirement_met">NSMEN SATR Requirement Met</string>
     <string name="reason">reason</string>
     <string name="reason_caps">Reason</string>
+    <string name="irf_requirement_met">IRF Requirement Met</string>
 
     <string-array name="years_array">
         <item>Jan 2019</item>

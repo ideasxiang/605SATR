@@ -2,7 +2,6 @@ package com.tab.satr.nominalroll
 
 import android.content.Context
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -17,8 +16,6 @@ import kotlin.collections.ArrayList
 
 class NominalRoll : AppCompatActivity() {
 
-    val MY_PREFS_NAME = "MyPrefsFile"
-
     var db: FirebaseFirestore = FirebaseFirestore.getInstance()
     var mRecyclerView: RecyclerView? = null
     private var recordsArrayList: java.util.ArrayList<Records>? = null
@@ -29,6 +26,7 @@ class NominalRoll : AppCompatActivity() {
     val usersMap = HashMap<Any?,Any?>()
     val usercourses = db.collection("satr_courses")
     var saveBtn: ImageView?= null
+    var unixdate: Long ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +41,9 @@ class NominalRoll : AppCompatActivity() {
 
         datedisplay = "$dayOfMonth/$month/$year"
 
-        val prefs = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE)
         coursespicked = prefs.getString("courses", "No courses defined")
+        unixdate = prefs.getLong("unixdate",0)
 
         val dateview = findViewById<TextView>(R.id.date_picked)
         val txtcoursespicked = findViewById<TextView>(R.id.courses)
@@ -70,13 +69,13 @@ class NominalRoll : AppCompatActivity() {
         db.collection("satr_courses")
             .document("docRef").get()
             .addOnSuccessListener{result ->
-                    val datetrack = result.getString("datetrack")!!
+                    val datetrack = result.getLong("datetrack")!!
                     val coursetrack = result.getString("coursetrack")!!
-                if (datetrack != datedisplay || coursetrack != coursespicked) {
+                if (datetrack != unixdate || coursetrack != coursespicked) {
                     db.collection("satr_courses")
                         .document("docRef").update("coursetrack",coursespicked)
                     db.collection("satr_courses")
-                        .document("docRef").update("datetrack",datedisplay)
+                        .document("docRef").update("datetrack",unixdate)
                     generateUserList()
                 }
             }
@@ -88,6 +87,7 @@ class NominalRoll : AppCompatActivity() {
             .addOnCompleteListener { task ->
                 for (ds in task.result!!) {
                     usersMap["date"] = datedisplay
+                    usersMap["unixdate"] = unixdate
                     usersMap["department"] = ds.getString("department")
                     usersMap["name"] = ds.getString("name")
                     usersMap["present"] = false

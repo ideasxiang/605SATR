@@ -18,9 +18,7 @@
             android:inputType="textCapSentences"
             android:textSize="14sp"
             android:hint="@string/reason"
-            android:clickable="true"
             android:gravity="center_vertical"
-            android:focusable="true"
             android:autofillHints="@string/reason"
             android:id="@+id/editExplanation" android:layout_weight="4"/>
     <CheckBox

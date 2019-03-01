@@ -34,10 +34,6 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         irfpercentage = findViewById(R.id.irf_percentage)
 
         initializeSpinner()
-        //getPercent("shift",shiftpercentage!!)
-        getPercent("mwds",mwdspercentage!!)
-        //getPercent("nsmen",nsmenpercentage!!)
-        //getPercent("irf",irfpercentage!!)
     }
 
     private fun getPercent(department: String,viewchange: TextView){
@@ -50,7 +46,7 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 when (department){
                     "shift" -> multiplynumber = 1
                     "irf" -> multiplynumber = 1
-                    "mwds" -> multiplynumber = 1
+                    "mwds" -> multiplynumber = 24
                     "nsmen" -> multiplynumber = 1
                 }
                 val totalnumberqualify = result.size()*multiplynumber
@@ -68,7 +64,7 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 when (department){
                     "shift" -> multiplynumber = 1
                     "irf" -> multiplynumber = 1
-                    "mwds" -> multiplynumber = 1
+                    "mwds" -> multiplynumber = 13
                     "nsmen" -> multiplynumber = 1
                 }
                 val totalnumbersustain = result.size()*multiplynumber
@@ -77,7 +73,7 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
     }
 
-    private fun getPresent(department: String,viewchange: TextView, totalnummber: Int) {
+    private fun getPresent(department: String,viewchange: TextView, totalnumber: Int) {
         db.collection("satr_courses")
             .whereEqualTo("department",department)
             .whereEqualTo("present",true)
@@ -86,7 +82,8 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             .get()
             .addOnSuccessListener {result->
                 val presentnumber = result.size()
-                viewchange.text = (presentnumber/totalnummber).toString()
+                val percentagenumber: Double = (presentnumber.toDouble())/totalnumber
+                viewchange.text = String.format("%.2f",percentagenumber*100).plus("%")
             }
     }
 
@@ -115,28 +112,28 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             "Jan 2019" -> {
                 startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2018").time
                 endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2019").time}
-            "July 2019" -> {
+            "Jul 2019" -> {
                 startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2019").time
                 endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2020").time}
             "Jan 2020" -> {
                 startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2019").time
                 endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2020").time}
-            "July 2020" -> {
+            "Jul 2020" -> {
                 startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2020").time
                 endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2021").time}
             "Jan 2021" -> {
                 startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2020").time
                 endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2021").time}
-            "July 2021" -> {
+            "Jul 2021" -> {
                 startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2021").time
                 endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2022").time}
             "Jan 2022" -> {
                 startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2021").time
                 endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2022").time}
-            "July 2022" -> {
+            "Jul 2022" -> {
                 startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2022").time
                 endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2023").time}
-
         }
+        getPercent("mwds",mwdspercentage!!)
     }
 }

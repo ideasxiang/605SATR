@@ -65,17 +65,12 @@ class NominalRoll : AppCompatActivity() {
     }
 
     private fun addInitialNominalRoll() {
-
         db.collection("satr_courses")
-            .document("docRef").get()
-            .addOnSuccessListener{result ->
-                    val datetrack = result.getLong("datetrack")!!
-                    val coursetrack = result.getString("coursetrack")!!
-                if (datetrack != unixdate || coursetrack != coursespicked) {
-                    db.collection("satr_courses")
-                        .document("docRef").update("coursetrack",coursespicked)
-                    db.collection("satr_courses")
-                        .document("docRef").update("datetrack",unixdate)
+            .whereEqualTo("course_name",coursespicked)
+            .whereEqualTo("date",datedisplay)
+            .get()
+            .addOnSuccessListener{ document->
+                if(document.isEmpty){
                     generateUserList()
                 }
             }

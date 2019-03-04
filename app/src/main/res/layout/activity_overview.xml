@@ -10,39 +10,95 @@
     <TextView
             android:text="@string/_605_satr_performance"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/txt_shift_performace"
+            android:layout_height="wrap_content" android:id="@+id/txt_605_performance"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="16dp"
     />
     <TextView
-            android:text="@string/shift_satr_requirement_met"
+            android:text="@string/checker_requirement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txt_shift_requirement" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/txt_shift_performace" app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/txt_checker_requirement" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_605_performance" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"/>
     <TextView
             android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/shift_percentage" android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@+id/txt_shift_requirement" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/txt_shift_performace"/>
+            android:id="@+id/checker_percentage" android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/txt_checker_requirement" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_605_performance"/>
     <TextView
-            android:text="@string/mwds_satr_requirement_met"
+            android:text="@string/guard_comd_requirement"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/txt_mwds_performance"
+            android:layout_height="wrap_content" android:id="@+id/txt_guard_performance"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/txt_shift_requirement"
+            app:layout_constraintTop_toBottomOf="@+id/txt_checker_requirement"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"/>
     <TextView
             android:text=""
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/mwds_percentage"
-            android:layout_marginStart="16dp" app:layout_constraintStart_toEndOf="@+id/txt_mwds_performance"
-            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/txt_shift_requirement"/>
+            android:layout_height="wrap_content" android:id="@+id/guard_percentage"
+            android:layout_marginStart="16dp" app:layout_constraintStart_toEndOf="@+id/txt_guard_performance"
+            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/txt_checker_requirement"/>
     <TextView
-            android:text="@string/nsmen_satr_requirement_met"
+            android:text="@string/armed_guard_requirement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_armed_performance" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_guard_performance"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"/>
+    <TextView
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/armed_percentage" android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/txt_armed_performance" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_guard_performance"/>
+    <TextView
+            android:text="@string/irf_requirement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_irf_performance" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_armed_performance"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"/>
+    <TextView
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/irf_percentage" android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/txt_irf_performance" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_armed_performance"/>
+    <TextView
+            android:text="@string/shift_requirement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_shift_performance" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_irf_performance"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"/>
+    <TextView
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/shift_percentage" android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/txt_shift_performance" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_irf_performance"/>
+    <TextView
+            android:text="@string/mwds_requirement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_mwds_performance" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_shift_performance"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"/>
+    <TextView
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mwds_percentage" android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/txt_mwds_performance" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_shift_performance"/>
+    <TextView
+            android:text="@string/nsmen_requirement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txt_nsmen_performance" android:layout_marginTop="16dp"
@@ -55,25 +111,11 @@
             android:id="@+id/nsmen_percentage" android:layout_marginStart="16dp"
             app:layout_constraintStart_toEndOf="@+id/txt_nsmen_performance" android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/txt_mwds_performance"/>
-    <TextView
-            android:text="@string/irf_requirement_met"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txt_irf_performance" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/txt_nsmen_performance"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"/>
-    <TextView
-            android:text=""
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/irf_percentage" android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@+id/txt_irf_performance" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/txt_nsmen_performance"/>
     <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/year_spinner" android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@+id/txt_shift_performace" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txt_605_performance" app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="16dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
             app:layout_constraintHorizontal_bias="1.0"/>
 </android.support.constraint.ConstraintLayout>

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -87,7 +86,7 @@ class NominalRoll : AppCompatActivity() {
                     usersMap["name"] = ds.getString("name")
                     usersMap["present"] = false
                     usersMap["course_name"] = coursespicked
-                    usersMap["vocation"] = ds.getString("vocation")
+                    usersMap["appointment"] = ds.getString("appointment")
                     usersMap["cycle"] = ds.getString("cycle")
                     usersMap["reason"] = ""
                     db.collection("satr_courses").add(usersMap)
@@ -114,7 +113,7 @@ class NominalRoll : AppCompatActivity() {
                         documentSnapshot.getString("department")!!,
                         documentSnapshot.getString("name")!!,
                         documentSnapshot.getBoolean("present")!!,
-                        documentSnapshot.getString("vocation")!!,
+                        documentSnapshot.getString("appointment")!!,
                         documentSnapshot.getString("cycle")!!,
                         documentSnapshot.getString("reason")!!
                     )
@@ -122,10 +121,6 @@ class NominalRoll : AppCompatActivity() {
                 }
                 adapter = MyRecyclerViewAdapter(this@NominalRoll, recordsArrayList)
                 mRecyclerView!!.adapter = adapter
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this@NominalRoll, "Problem ---1---", Toast.LENGTH_SHORT).show()
-                Log.w("---1---", e.message)
             }
     }
 

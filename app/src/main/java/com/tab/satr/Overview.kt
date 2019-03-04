@@ -13,77 +13,122 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
-    var shiftpercentage: TextView ?= null
-    var mwdspercentage: TextView ?= null
-    var nsmenpercentage: TextView ?= null
-    var irfpercentage: TextView ?= null
     var startselecteddate: Long ?= null
     var endselecteddate: Long ?= null
+    var startpreviousdate: Long ?= null
+    var endpreviousdate: Long ?= null
+    var shift: TextView ?= null
+    var checker: TextView ?= null
+    var guard: TextView ?= null
+    var armed: TextView ?= null
     private lateinit var functions: FirebaseFunctions
     val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_overview)
 
         functions = FirebaseFunctions.getInstance()
 
-        shiftpercentage =  findViewById(R.id.shift_percentage)
-        mwdspercentage = findViewById(R.id.mwds_percentage)
-        nsmenpercentage = findViewById(R.id.nsmen_percentage)
-        irfpercentage = findViewById(R.id.irf_percentage)
-
         initializeSpinner()
+
+        generateAll()
+
+        shift =  findViewById(R.id.shift_percentage)
+        checker = findViewById(R.id.checker_percentage)
+        guard = findViewById(R.id.guard_percentage)
+        armed = findViewById(R.id.armed_percentage)
+
+        /*val shiftpercent = checker!!.text.toString().toDouble() + guard!!.text.toString().toDouble() + armed!!.text.toString().toDouble()
+        shift!!.text = shiftpercent.toString()*/
     }
 
-    private fun getPercent(department: String,viewchange: TextView){
-        db.collection("users")
-            .whereEqualTo("department",department)
+    private fun generateAll() {
+        getPercent("Checker",findViewById(R.id.checker_percentage))
+        getPercent("Guard Comd",findViewById(R.id.guard_percentage))
+        getPercent("Armed Guard",findViewById(R.id.armed_percentage))
+        getPercent("IRF",findViewById(R.id.irf_percentage))
+        getPercent("Dog Handler",findViewById(R.id.mwds_percentage))
+        getPercent("NS men",findViewById(R.id.nsmen_percentage))
+    }
+
+    private fun getPercent(appointment: String,view:TextView){
+        val total = db.collection("users")
+            .whereEqualTo("appointment",appointment)
             .whereEqualTo("cycle","1")
             .get()
-            .addOnSuccessListener {result->
-                var multiplynumber = 0
-                when (department){
-                    "shift" -> multiplynumber = 1
-                    "irf" -> multiplynumber = 1
-                    "mwds" -> multiplynumber = 24
-                    "nsmen" -> multiplynumber = 1
-                }
-                val totalnumberqualify = result.size()*multiplynumber
-                getsustainnumber(department,viewchange,totalnumberqualify)
+            .addOnSuccessListener {
+                val qualifynumber = it.size()
+                getLiveFiring(appointment,qualifynumber,view)
             }
     }
 
-    private fun getsustainnumber(department: String,viewchange: TextView,totalnumberqualify: Int) {
-        db.collection("users")
-            .whereEqualTo("department",department)
-            .whereEqualTo("cycle","2")
-            .get()
-            .addOnSuccessListener {result->
-                var multiplynumber = 0
-                when (department){
-                    "shift" -> multiplynumber = 1
-                    "irf" -> multiplynumber = 1
-                    "mwds" -> multiplynumber = 13
-                    "nsmen" -> multiplynumber = 1
-                }
-                val totalnumbersustain = result.size()*multiplynumber
-                val totalnumber = totalnumberqualify + totalnumbersustain
-                getPresent(department,viewchange,totalnumber)
-            }
-    }
-
-    private fun getPresent(department: String,viewchange: TextView, totalnumber: Int) {
+    private fun getLiveFiring(appointment: String,
+                              qualifynumber: Int,
+                              view:TextView){
         db.collection("satr_courses")
-            .whereEqualTo("department",department)
+            .whereEqualTo("appointment",appointment)
+            .whereEqualTo("cycle","2")
+            .whereEqualTo("course_name","Weapon Live Firing")
+            .whereEqualTo("present",true)
+            .whereGreaterThan("unixdate",startpreviousdate!!)
+            .whereLessThan("unixdate",endpreviousdate!!)
+            .get()
+            .addOnSuccessListener {
+                val totallive = it.size()
+                getSustain(appointment,qualifynumber,totallive,view)
+            }
+    }
+
+    private fun getSustain(appointment: String,
+                           qualifynumber: Int,
+                           totallive: Int,
+                           view:TextView){
+        db.collection("users")
+            .whereEqualTo("appointment", appointment)
+            .whereEqualTo("cycle", "2")
+            .get()
+            .addOnSuccessListener {
+                val sustainnumber = it.size()
+                getPresent(appointment,qualifynumber,totallive,sustainnumber,view)
+            }
+    }
+
+    private fun getPresent(appointment: String,
+                           qualifynumber: Int,
+                           totallive: Int,
+                           sustainnumber: Int,
+                           view:TextView) {
+        db.collection("satr_courses")
+            .whereEqualTo("appointment",appointment)
             .whereEqualTo("present",true)
             .whereGreaterThan("unixdate",startselecteddate!!)
             .whereLessThan("unixdate",endselecteddate!!)
             .get()
-            .addOnSuccessListener {result->
-                val presentnumber = result.size()
-                val percentagenumber: Double = (presentnumber.toDouble())/totalnumber
-                viewchange.text = String.format("%.2f",percentagenumber*100).plus("%")
+            .addOnSuccessListener {
+                val presentnumber = it.size()
+                var multiplyhalf = 0
+                var multiplyfull = 0
+                when (appointment) {
+                    "Dog Handler" -> multiplyhalf = 13
+                    "IRF" -> multiplyhalf = 13
+                    "Checker" -> multiplyhalf = 13
+                    "Guard Comd" -> multiplyhalf = 13
+                    "Armed Guard" -> multiplyhalf = 13
+                    "NS men" -> multiplyhalf = 13
+                }
+                when (appointment) {
+                    "Dog Handler" -> multiplyfull = 26
+                    "IRF" -> multiplyhalf = 13
+                    "Checker" -> multiplyhalf = 13
+                    "Guard Comd" -> multiplyhalf = 13
+                    "Armed Guard" -> multiplyhalf = 13
+                    "NS men" -> multiplyhalf = 13
+                }
+                val nolive = sustainnumber - totallive
+                val totalcourses = qualifynumber * multiplyfull + totallive * (multiplyhalf - 1) + nolive * multiplyhalf
+                val percentage = (presentnumber.toDouble())/totalcourses
+                view.text = String.format("%.2f",percentage*100).plus("%")
             }
     }
 
@@ -111,29 +156,52 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         when(parent.selectedItem.toString()){
             "Jan 2019" -> {
                 startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2018").time
-                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2019").time}
+                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2019").time
+                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-06-2018").time
+                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2018").time}
             "Jul 2019" -> {
                 startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2019").time
-                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2020").time}
+                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2020").time
+                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2018").time
+                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2019").time
+            }
             "Jan 2020" -> {
                 startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2019").time
-                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2020").time}
+                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2020").time
+                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2019").time
+                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2020").time
+            }
             "Jul 2020" -> {
                 startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2020").time
-                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2021").time}
+                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2021").time
+                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2019").time
+                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2020").time
+            }
             "Jan 2021" -> {
                 startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2020").time
-                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2021").time}
+                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2021").time
+                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2020").time
+                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2021").time
+            }
             "Jul 2021" -> {
                 startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2021").time
-                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2022").time}
+                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2022").time
+                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2020").time
+                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2021").time
+            }
             "Jan 2022" -> {
                 startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2021").time
-                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2022").time}
+                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2022").time
+                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2021").time
+                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2022").time
+            }
             "Jul 2022" -> {
                 startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2022").time
-                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2023").time}
+                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2023").time
+                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2021").time
+                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2022").time
+            }
         }
-        getPercent("mwds",mwdspercentage!!)
+        //getPercent("mwds",mwdspercentage!!)
     }
 }

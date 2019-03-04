@@ -52,12 +52,15 @@
     <string name="refresh">Refresh</string>
     <string name="overview">Overview</string>
     <string name="_605_satr_performance">605 SATR Performance</string>
-    <string name="mwds_satr_requirement_met">MWDS SATR Requirement Met</string>
-    <string name="shift_satr_requirement_met">Shift SATR Requirement Met</string>
-    <string name="nsmen_satr_requirement_met">NSMEN SATR Requirement Met</string>
+    <string name="mwds_requirement">MWDS SATR Requirement</string>
+    <string name="nsmen_requirement">NSMEN SATR Requirement</string>
     <string name="reason">reason</string>
     <string name="reason_caps">Reason</string>
-    <string name="irf_requirement_met">IRF Requirement Met</string>
+    <string name="irf_requirement">IRF Requirement</string>
+    <string name="guard_comd_requirement">Guard Comd Requirement</string>
+    <string name="checker_requirement">Checker Requirement</string>
+    <string name="armed_guard_requirement">Armed Guard Requirement</string>
+    <string name="shift_requirement">Shift Requirement</string>
 
     <string-array name="years_array">
         <item>Jan 2019</item>

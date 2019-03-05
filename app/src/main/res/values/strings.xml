@@ -61,6 +61,11 @@
     <string name="checker_requirement">Checker Requirement</string>
     <string name="armed_guard_requirement">Armed Guard Requirement</string>
     <string name="shift_requirement">Shift Requirement</string>
+    <string name="search_hint">Search name</string>
+    <string name="action_save">Save Action</string>
+    <string name="action_settings">Settings Action</string>
+    <string name="action_search">Action Search</string>
+    <string name="no_result">No Result</string>
 
     <string-array name="years_array">
         <item>Jan 2019</item>

@@ -96,7 +96,6 @@ class Register : AppCompatActivity() {
                             Log.w(s, "Error adding document", e)
                         }*/
                     val intent = Intent(this, Login::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                     startActivity(intent)
 
                 } else {

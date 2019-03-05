@@ -7,12 +7,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.tab.satr.R
 import java.util.*
+import kotlin.collections.ArrayList
 
-class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var recordsArrayList: ArrayList<com.tab.satr.nominalroll.Records>?) :
-    RecyclerView.Adapter<MyRecyclerViewHolder>() {
-
-    val data = HashMap<String,Any?>()
-    var reasonText: String = ""
+class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var recordsArrayList: ArrayList<com.tab.satr.nominalroll.Records> = ArrayList()) :
+    RecyclerView.Adapter<MyRecyclerViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyRecyclerViewHolder {
 
@@ -23,15 +21,16 @@ class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var r
     }
 
     override fun onBindViewHolder(holder: MyRecyclerViewHolder, position: Int) {
-
-        holder.mUserName.text = recordsArrayList!![position].name
-        holder.mCheckBox.isChecked = recordsArrayList!![position].present
-        holder.mEditExplanation.setText(recordsArrayList!![position].reason)
+        val data = HashMap<String,Any?>()
+        var reasonText: String
+        holder.mUserName.text = recordsArrayList[position].name
+        holder.mCheckBox.isChecked = recordsArrayList[position].present
+        holder.mEditExplanation.setText(recordsArrayList[position].reason)
         mainActivity.saveBtn!!.setOnClickListener{
             reasonText = holder.mEditExplanation.text.toString()
             data["reason"] = reasonText
             mainActivity.usercourses
-                .document(recordsArrayList!![position].documentId)
+                .document(recordsArrayList[position].documentId)
                 .update(data)
             Toast.makeText(mainActivity,"Saved",Toast.LENGTH_SHORT).show()
         }
@@ -39,7 +38,7 @@ class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var r
             val checked: Boolean = holder.mCheckBox.isChecked
             data["present"] = checked
             mainActivity.usercourses
-                    .document(recordsArrayList!![position].documentId)
+                    .document(recordsArrayList[position].documentId)
                     .update(data)
         }
         if(position %2 == 1)
@@ -60,7 +59,7 @@ class MyRecyclerViewAdapter(private var mainActivity: NominalRoll, private var r
     }
 
     override fun getItemCount(): Int {
-        return recordsArrayList!!.size
+        return recordsArrayList.size
     }
 
 }

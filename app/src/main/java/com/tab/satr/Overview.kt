@@ -24,21 +24,13 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var functions: FirebaseFunctions
     val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    override fun onCreate(savedInstanceState: Bundle?){
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_overview)
 
         functions = FirebaseFunctions.getInstance()
 
         initializeSpinner()
-
-        /*shift =  findViewById(R.id.shift_percentage)
-        checker = findViewById(R.id.checker_percentage)
-        guard = findViewById(R.id.guard_percentage)
-        armed = findViewById(R.id.armed_percentage)*/
-
-        /*val shiftpercent = checker!!.text.toString().toDouble() + guard!!.text.toString().toDouble() + armed!!.text.toString().toDouble()
-        shift!!.text = shiftpercent.toString()*/
     }
 
     private fun updateCycle() {

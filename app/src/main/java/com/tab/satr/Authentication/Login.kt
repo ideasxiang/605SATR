@@ -88,7 +88,6 @@ class Login : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         val intent = Intent(this, DashBoard::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                         startActivity(intent)
                         Log.d(s, "Login Successful")
                     } else {

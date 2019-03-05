@@ -57,7 +57,7 @@ class NominalRoll : AppCompatActivity() {
     private fun addInitialNominalRoll() {
         usercourses
             .whereEqualTo("course_name",coursespicked)
-            .whereEqualTo("date",datedisplay)
+            .whereEqualTo("unixdate",unixdate)
             .get()
             .addOnSuccessListener{ document->
                 if(document.isEmpty){
@@ -107,6 +107,7 @@ class NominalRoll : AppCompatActivity() {
                     )
                     recordsArrayList!!.add(satrcourses)
                 }
+                recordsArrayList!!.sortBy { it.name }
                 adapter = MyRecyclerViewAdapter(this@NominalRoll, recordsArrayList)
                 mRecyclerView!!.adapter = adapter
             }

@@ -19,12 +19,9 @@ class DatePicker : AppCompatActivity() {
         val editor = getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE).edit()
         calendarView.setOnDateChangeListener{ _, year, month, dayOfMonth ->
             val intent = Intent(this, NominalRoll::class.java)
-            intent.putExtra("dayOfMonth", dayOfMonth)
-            intent.putExtra("month", month)
-            intent.putExtra("year", year)
             val actualmonth = month+1
-            val date = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("$dayOfMonth-$actualmonth-$year")
-            editor.putLong("unixdate",date.time).apply()
+            val date = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("$dayOfMonth-$actualmonth-$year").time
+            editor.putLong("unixdate",date/1000L).apply()
             startActivity(intent)
         }
     }

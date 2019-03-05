@@ -34,8 +34,8 @@
       <ImageButton
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:id="@+id/btn_refresh"
-              android:src="@drawable/ic_refresh_black_24dp"
+              android:id="@+id/btn_edit"
+              android:src="@drawable/ic_edit_black_24dp"
               style="@style/Widget.AppCompat.Button.Borderless"/>
     </LinearLayout>
   </RelativeLayout>

@@ -32,15 +32,37 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         initializeSpinner()
 
-        generateAll()
-
-        shift =  findViewById(R.id.shift_percentage)
+        /*shift =  findViewById(R.id.shift_percentage)
         checker = findViewById(R.id.checker_percentage)
         guard = findViewById(R.id.guard_percentage)
-        armed = findViewById(R.id.armed_percentage)
+        armed = findViewById(R.id.armed_percentage)*/
 
         /*val shiftpercent = checker!!.text.toString().toDouble() + guard!!.text.toString().toDouble() + armed!!.text.toString().toDouble()
         shift!!.text = shiftpercent.toString()*/
+    }
+
+    private fun updateCycle() {
+        db.collection("users")
+            .whereLessThan("post",startselecteddate!!-7776000L)
+            .get()
+            .addOnCompleteListener{Task->
+                for(ds in Task.result!!){
+                    db.collection("users").document(ds.id).update("cycle","2")
+                }
+                updateOrd()
+            }
+    }
+
+    private fun updateOrd() {
+        db.collection("users")
+            .whereLessThan("ord",startselecteddate!!+7776000L)
+            .get()
+            .addOnCompleteListener { Task ->
+                for (ds in Task.result!!) {
+                    db.collection("users").document(ds.id).update("isord",true)
+                }
+                generateAll()
+            }
     }
 
     private fun generateAll() {
@@ -53,7 +75,7 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun getPercent(appointment: String,view:TextView){
-        val total = db.collection("users")
+        db.collection("users")
             .whereEqualTo("appointment",appointment)
             .whereEqualTo("cycle","1")
             .get()
@@ -68,9 +90,9 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                               view:TextView){
         db.collection("satr_courses")
             .whereEqualTo("appointment",appointment)
-            .whereEqualTo("cycle","2")
             .whereEqualTo("course_name","Weapon Live Firing")
             .whereEqualTo("present",true)
+            .whereEqualTo("cycle","2")
             .whereGreaterThan("unixdate",startpreviousdate!!)
             .whereLessThan("unixdate",endpreviousdate!!)
             .get()
@@ -155,53 +177,53 @@ class Overview : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
         when(parent.selectedItem.toString()){
             "Jan 2019" -> {
-                startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2018").time
-                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2019").time
-                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-06-2018").time
-                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2018").time}
+                startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("31-12-2018").time/1000L
+                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-07-2019").time/1000L
+                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("31-06-2018").time/1000L
+                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-01-2018").time/1000L}
             "Jul 2019" -> {
-                startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2019").time
-                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2020").time
-                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2018").time
-                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2019").time
+                startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("30-06-2019").time/1000L
+                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-01-2020").time/1000L
+                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("31-12-2018").time/1000L
+                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-07-2019").time/1000L
             }
             "Jan 2020" -> {
-                startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2019").time
-                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2020").time
-                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2019").time
-                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2020").time
+                startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("31-12-2019").time/1000L
+                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-07-2020").time/1000L
+                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("30-06-2019").time/1000L
+                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-01-2020").time/1000L
             }
             "Jul 2020" -> {
-                startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2020").time
-                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2021").time
-                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2019").time
-                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2020").time
+                startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("30-06-2020").time/1000L
+                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-01-2021").time/1000L
+                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("31-12-2019").time/1000L
+                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-07-2020").time/1000L
             }
             "Jan 2021" -> {
-                startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2020").time
-                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2021").time
-                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2020").time
-                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2021").time
+                startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("31-12-2020").time/1000L
+                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-07-2021").time/1000L
+                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("30-06-2020").time/1000L
+                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-01-2021").time/1000L
             }
             "Jul 2021" -> {
-                startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2021").time
-                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2022").time
-                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2020").time
-                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2021").time
+                startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("30-06-2021").time/1000L
+                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-01-2022").time/1000L
+                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("31-12-2020").time/1000L
+                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-07-2021").time/1000L
             }
             "Jan 2022" -> {
-                startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2021").time
-                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2022").time
-                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2021").time
-                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2022").time
+                startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("31-12-2021").time/1000L
+                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-07-2022").time/1000L
+                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("30-06-2021").time/1000L
+                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-01-2022").time/1000L
             }
             "Jul 2022" -> {
-                startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("30-06-2022").time
-                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-01-2023").time
-                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("31-12-2021").time
-                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse("01-07-2022").time
+                startselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("30-06-2022").time/1000L
+                endselecteddate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-01-2023").time/1000L
+                startpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("31-12-2021").time/1000L
+                endpreviousdate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).parse("01-07-2022").time/1000L
             }
         }
-        //getPercent("mwds",mwdspercentage!!)
+        updateCycle()
     }
 }

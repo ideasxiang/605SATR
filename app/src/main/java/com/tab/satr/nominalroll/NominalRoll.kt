@@ -95,6 +95,7 @@ class NominalRoll : AppCompatActivity() {
                 }
                 else{
                     for (ds in task) {
+                        newArrayList.clear()
                         val satrcourses = Records(
                             ds.id,
                             ds.getString("name")!!,
